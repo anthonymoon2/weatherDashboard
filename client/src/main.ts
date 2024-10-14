@@ -77,8 +77,6 @@ Render Functions
 */
 
 const renderCurrentWeather = (currentWeather: any): void => {
-  console.log(currentWeather);
-  console.log(typeof currentWeather); 
   // parse the JSON string into an object
   const { cityName, date, icon, iconDescription, temperature, wind, humidity } = currentWeather;
 
@@ -102,7 +100,7 @@ const renderCurrentWeather = (currentWeather: any): void => {
 };
 
 
-const renderForecast = (forecast: any): void => {
+const renderForecast = (weatherDataArray: any): void => {
   const headingCol = document.createElement('div');
   const heading = document.createElement('h4');
 
@@ -115,17 +113,18 @@ const renderForecast = (forecast: any): void => {
     forecastContainer.append(headingCol);
   }
 
-  for (let i = 0; i < forecast.length; i++) {
-    renderForecastCard(forecast[i]);
+  // loop through array and render forecast card for each day
+  for (let i = 0; i < 5; i++) {
+    renderForecastCard(weatherDataArray.weatherData[i]);
   }
 };
 
 
-const renderForecastCard = (forecast: any) => {
-  const { date, icon, iconDescription, tempF, windSpeed, humidity } = forecast;
+const renderForecastCard = (forecastDay: any) => {
+  // parse the JSON string into an object
+  const { date, icon, iconDescription, temperature, wind, humidity } = forecastDay;
 
-  const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } =
-    createForecastCard();
+  const { col, cardTitle, weatherIcon, tempEl, windEl, humidityEl } = createForecastCard();
 
   // Add content to elements
   cardTitle.textContent = date;
@@ -134,8 +133,8 @@ const renderForecastCard = (forecast: any) => {
     `https://openweathermap.org/img/w/${icon}.png`
   );
   weatherIcon.setAttribute('alt', iconDescription);
-  tempEl.textContent = `Temp: ${tempF} °F`;
-  windEl.textContent = `Wind: ${windSpeed} MPH`;
+  tempEl.textContent = `Temp: ${temperature} °F`;
+  windEl.textContent = `Wind: ${wind} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
   if (forecastContainer) {

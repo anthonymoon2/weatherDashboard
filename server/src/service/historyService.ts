@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 
-// TODO: Define a City class with name and id properties
+// DONE: Define a City class with name and id properties
 class City{
   name: string;
   id: number;
@@ -11,9 +11,9 @@ class City{
   }
 }
 
-// TODO: Complete the HistoryService class
+// DONE: Complete the HistoryService class
 class HistoryService {
-  // DONE: Define a read method that reads from the searchHistory.json file
+  // DONE: Define a read method that reads from the db.json file
   // reads db.json file and returns content as a string 
   private async read() {
     return await fs.readFile('db/db.json', {
@@ -22,12 +22,12 @@ class HistoryService {
     });
   }
 
-  // DONE: Define a write method that writes the updated cities array to the searchHistory.json file
+  // DONE: Define a write method that writes the updated cities array to the db.json file
   private async write(cities: City[]) {
     return await fs.writeFile('db/db.json', JSON.stringify(cities, null, '\t'));
   }
 
-  // TODO: Define a getCities method that reads the cities from the db.json file and returns them as an array of City objects
+  // DONE: reads the cities from the db.json file and returns them as an array of City objects
   async getCities() {
     try {
       // call read function
@@ -48,14 +48,14 @@ class HistoryService {
     }
   }
 
-  // TODO Define an addCity method that adds a city to the searchHistory.json file
+  // DONE: adds a city to the db.json file
   async addCity(cityName: string) {
     if (!cityName){
       throw new Error('City cannot be blank!');
     }
     console.log(`Added City: ${cityName}`);
 
-    // get the exsiting cities
+    // get the existing cities
     const cities = await this.getCities();
 
     // get next available ID
@@ -64,7 +64,7 @@ class HistoryService {
     // create new city object
     const newCity = new City(cityName, nextId);
 
-    // add to newly created ciities array
+    // add to newly created cities array
     cities.push(newCity);
 
     // write to file
@@ -72,8 +72,17 @@ class HistoryService {
   }
 
 
-  // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
-  // async removeCity(id: string) {}
+  // DONE: removes a city from the db.json file
+  async removeCity(id: number) {
+    // get the existing cities
+    const cities = await this.getCities();
+
+    // filter out the city with the specific numeric ID (excludes matching city with id creating new array updatedCities without it)
+    const updatedCities = cities.filter((city: City) => city.id !== id);
+
+    // write to file
+    await this.write(updatedCities);
+  }
 }
 
 export default new HistoryService();

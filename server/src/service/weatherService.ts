@@ -28,9 +28,9 @@ class Weather{
   }
 }
 
-// TODO: Complete the WeatherService class
+// DONE: Complete the WeatherService class
 class WeatherService {
-  // TODO: Define the baseURL, API key, and city name properties
+  // DONE: Define the baseURL, API key, and city name properties
   private baseURL?: string;
   private apiKey?: string;
   cityName: string;
@@ -42,7 +42,7 @@ class WeatherService {
   }
 
   
-  // TODO: Create fetchLocationData method - gets the data to input for long and latitude
+  // DONE: Create fetchLocationData method - gets the data to input for long and latitude
   private async fetchLocationData(geocodeURL: string) {
     try {
       const response = await fetch(geocodeURL);
@@ -58,7 +58,7 @@ class WeatherService {
     }
   }
   
-  // TODO: Create destructureLocationData method
+  // DONE: Create destructureLocationData method
   private destructureLocationData(locationData: any): Coordinates {
     const longitude = locationData[0].lon;
     const latitude = locationData[0].lat;
@@ -66,7 +66,7 @@ class WeatherService {
     return {longitude, latitude};
   }
 
-  // TODO: Create buildGeocodeQuery method - takes in cityname and gives the geocode url to find longitude and latitude
+  // DONE: Create buildGeocodeQuery method - takes in cityname and gives the geocode url to find longitude and latitude
   private buildGeocodeQuery(cityName: string): string {
     return `${this.baseURL}/geo/1.0/direct?q=${cityName}&limit=1&appid=${this.apiKey}`;
   }
@@ -79,7 +79,7 @@ class WeatherService {
     return url;
   }
 
-  // TODO: Create fetchAndDestructureLocationData method -- gives the long and lat given city name
+  // DONE: Create fetchAndDestructureLocationData method -- gives the long and lat given city name
   private async fetchAndDestructureLocationData(cityName: string) {
     // first build geocode URL
     let geocodeURL = this.buildGeocodeQuery(cityName);
@@ -91,7 +91,7 @@ class WeatherService {
     return this.destructureLocationData(locationData);
   }
 
-  // TODO: Create fetchWeatherData method
+  // DONE: Create fetchWeatherData method
   private async fetchWeatherData(cityName: string) {
     try {
       // fetch and destructure cityname to get long and lat coordinates
@@ -157,7 +157,7 @@ class WeatherService {
     const forecastArray = [];
 
     // for loop (loop through every eight element to get the forecast for next 5 days (list is in 3hr increments))
-    for (let i=0; i<41; i+=8){
+    for (let i=0; i<33; i+=8){
       // get weather object for each day
       let weatherDay = await this.getWeatherForCity(cityName, i);
 

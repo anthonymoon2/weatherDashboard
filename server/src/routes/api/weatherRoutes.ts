@@ -4,7 +4,7 @@ const router = Router();
 import HistoryService from '../../service/historyService.js';
 import WeatherService from '../../service/weatherService.js';
 
-// TODO: POST Request with city name to retrieve weather data
+// DONE: POST Request with city name to retrieve weather data
 router.post('/', async (req, res) => {
   try{
     // extract the city name from the body
@@ -31,15 +31,23 @@ router.post('/', async (req, res) => {
 
 // DONE: GET search history
 router.get('/history', async (_req, res) => {
-  const cities = await HistoryService.getCities ();
+  const cities = await HistoryService.getCities();
 
-  cities.forEach(city => {
-    console.log(`city: ${city}`);
-  });
   res.status(200).json(cities);
 });
 
-// * BONUS TODO: DELETE city from search history
-//router.delete('/history/:id', async (_req, _res) => {});
+// DONE: DELETE city from search history
+router.delete('/history/:id', async (req, res) => {
+  try {
+    // get the id from the request params
+    const id = parseInt(req.params.id)
+
+    // call function from history service and pass in id
+    await HistoryService.removeCity(id);
+    res.status(200).json({ message: `City with ID ${id} has been removed from history.` });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to delete the city.' });
+  }
+});
 
 export default router;
