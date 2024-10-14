@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 
-// DONE: Define a City class with name and id properties
 class City{
   name: string;
   id: number;
@@ -11,9 +10,8 @@ class City{
   }
 }
 
-// DONE: Complete the HistoryService class
 class HistoryService {
-  // DONE: Define a read method that reads from the db.json file
+  // DONE: reads from the db.json file
   // reads db.json file and returns content as a string 
   private async read() {
     return await fs.readFile('db/db.json', {
@@ -22,7 +20,7 @@ class HistoryService {
     });
   }
 
-  // DONE: Define a write method that writes the updated cities array to the db.json file
+  // DONE: write method that writes the updated cities array to the db.json file
   private async write(cities: City[]) {
     return await fs.writeFile('db/db.json', JSON.stringify(cities, null, '\t'));
   }
